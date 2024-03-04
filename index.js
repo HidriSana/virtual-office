@@ -65,7 +65,7 @@ function animate() {
 }
 
 animate();
-let lastKey = "";
+let lastKey = ""; //This is a diagonal movement fix. It will store the last key pressed.
 window.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowUp":
