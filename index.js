@@ -15,11 +15,29 @@ image.src = "./images/hidris-office-map-200-zoomed.png";
 //Create a new image object for the player
 const playerImage = new Image();
 playerImage.src = "./images/characters/Premade_Character_48x48_01.png";
+class Sprite {
+  constructor({ position, image }) {
+    this.position = position;
+    this.image = image;
+  }
+  draw() {
+    ctx.drawImage(this.image, this.position.x, this.position.y);
+  }
+}
 
-console.log(image);
-//I wait for the image to load before drawing it to the canvas.
-image.onload = () => {
-  ctx.drawImage(image, -263, -800); //Starting position in the office map
+const background = new Sprite({ position: { x: -263, y: -800 }, image: image });
+
+const keys = {
+  ArrowUp: { pressed: false },
+  ArrowDown: { pressed: false },
+  ArrowLeft: { pressed: false },
+  ArrowRight: { pressed: false },
+};
+//There is nothing wrong with an infinite loop when it comes to this kind of animations.
+//The window.requestAnimationFrame() method tells the browser that you wish to perform an animation and requests that the browser calls a specified function to update an animation before the next repaint.
+function animate() {
+  window.requestAnimationFrame(animate);
+  background.draw();
   ctx.drawImage(
     playerImage,
     (playerImage.width / 56) * 1, //Sprite x position (Virtual grid of the sprite sheet is  56 x 20)
@@ -31,4 +49,59 @@ image.onload = () => {
     playerImage.width / 56, // actual size of character block
     playerImage.height / 20 // actual size of character block
   );
-};
+
+  if (keys.ArrowUp.pressed) {
+    background.position.y += 5;
+  }
+  if (keys.ArrowDown.pressed) {
+    background.position.y -= 5;
+  }
+  if (keys.ArrowLeft.pressed) {
+    background.position.x += 5;
+  }
+  if (keys.ArrowRight.pressed) {
+    background.position.x -= 5;
+  }
+}
+
+animate();
+
+window.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "ArrowUp":
+      keys.ArrowUp.pressed = true;
+      console.log("up");
+      break;
+    case "ArrowDown":
+      keys.ArrowDown.pressed = true;
+      console.log("down");
+      break;
+    case "ArrowLeft":
+      keys.ArrowLeft.pressed = true;
+      console.log("left");
+      break;
+    case "ArrowRight":
+      keys.ArrowRight.pressed = true;
+      console.log("right");
+      break;
+  }
+  console.log(keys);
+});
+
+//When the key is released, we set the pressed property to false.
+window.addEventListener("keyup", (event) => {
+  switch (event.key) {
+    case "ArrowUp":
+      keys.ArrowUp.pressed = false;
+      break;
+    case "ArrowDown":
+      keys.ArrowDown.pressed = false;
+      break;
+    case "ArrowLeft":
+      keys.ArrowLeft.pressed = false;
+      break;
+    case "ArrowRight":
+      keys.ArrowRight.pressed = false;
+      break;
+  }
+});
