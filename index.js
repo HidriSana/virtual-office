@@ -49,40 +49,40 @@ function animate() {
     playerImage.width / 56, // actual size of character block
     playerImage.height / 20 // actual size of character block
   );
-
-  if (keys.ArrowUp.pressed) {
+  //Makes the illusion of moving player, but it's actually moving the background image.
+  if (keys.ArrowUp.pressed && lastKey === "ArrowUp") {
     background.position.y += 5;
   }
-  if (keys.ArrowDown.pressed) {
+  if (keys.ArrowDown.pressed && lastKey === "ArrowDown") {
     background.position.y -= 5;
   }
-  if (keys.ArrowLeft.pressed) {
+  if (keys.ArrowLeft.pressed && lastKey === "ArrowLeft") {
     background.position.x += 5;
   }
-  if (keys.ArrowRight.pressed) {
+  if (keys.ArrowRight.pressed && lastKey === "ArrowRight") {
     background.position.x -= 5;
   }
 }
 
 animate();
-
+let lastKey = "";
 window.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowUp":
       keys.ArrowUp.pressed = true;
-      console.log("up");
+      lastKey = "ArrowUp";
       break;
     case "ArrowDown":
       keys.ArrowDown.pressed = true;
-      console.log("down");
+      lastKey = "ArrowDown";
       break;
     case "ArrowLeft":
       keys.ArrowLeft.pressed = true;
-      console.log("left");
+      lastKey = "ArrowLeft";
       break;
     case "ArrowRight":
       keys.ArrowRight.pressed = true;
-      console.log("right");
+      lastKey = "ArrowRight";
       break;
   }
   console.log(keys);
